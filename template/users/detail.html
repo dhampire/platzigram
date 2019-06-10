@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head_contend %}
+<title>@{{ request.user.username}} - Platzigram</title>
+{% endblock%}
+
+{% block container %}
+<div class="container mb-5 d-flex justify-content-center">
+	<div class="row">
+		<div class="col-sm-4 d-flex justify-content-center">
+			<img src="{{ request.user.profile.picture.url }}" alt="" class="rounded-circle" width="150px" height="150px">
+		</div>
+		<div class="col-sm-8">
+			<h2 class="">
+				{{ request.user.username }}
+				{% if request.user == user %}
+					<a 
+						href="{% url "users:update_profile"%}"
+						class="ml-5 btn btn-sm btn-outline-info" 
+						>
+						Edit profile
+					</a>
+				{% else %}
+					<a 
+						href=""
+						class="ml-5 btn-sm btn-primary" 
+					>
+					Follow
+					</a>
+				{% endif %}
+			</h2>
+		</div>
+	</div>
+</div>
+{% endblock %}

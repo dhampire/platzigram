@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block head_contend %}
+<title> Update Profile</title>
+{% endblock %}
+
+{% block container %}
+	 <divclass="container">
+		{% load static %}
+    <div class="row justify-content-md-center">
+      <div class="col-6 p-4"id="profile-box">
+
+        <form action="{% url 'update_profile' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="media">
+            {% if profile.picture %}
+              <img src="{{ profile.picture.url }}" class="rounded-circle" height="50" />
+            {% else %}
+              <img src="{% static 'img/default-profile.png' %}" class="rounded-circle" height="50" />
+            {% endif %}
+
+            <div class="media-body">
+              <h5 class="ml-4">@{{ user.username }} | {{ user.get_full_name }}</h5>
+              <p class="ml-4"><input type="file"name="picture" ></p>
+            </div>
+          </div>
+
+          {% for error in form.picture.errors %}
+          	<div class="alert alert-danger">
+          		<b>Picture: </b>{{ error}}
+          	</div>
+          {% endfor %}
+
+          <hr><br>
+
+          <div class="">
+            <label>Website</label>
+            <input
+                class="form-control {% if form.website.errors %}is-invalid{% endif %}"
+                name="website"
+                type="text"
+                placeholder="Website"
+                value="{{ profile.website }}"
+                />
+          </div>
+
+          <div class="">
+            <label>Biography</label>
+            <textarea class="form-control" name="biography">{{ profile.biography }}</textarea>
+          </div>
+
+          <div class="">
+            <label>Phone number</label>
+            <input
+                class="form-control"
+                name="phone_number"
+                type="text"
+                placeholder="Phone number"
+                value="{% if form.errors%} {{form.phone_number.value}}{% else %}{{ profile.phone_number }} {% endif %}"
+                />
+                <div class="invalid-feedback">
+                	{% for error in form.website.errors %}
+                		{{errors }}
+                	{% endfor %}
+                </div>
+          </div>
+
+          <button class="btn btn-primary btn-block mt-5"type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
