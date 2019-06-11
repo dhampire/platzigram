@@ -11,8 +11,8 @@ class ProfileCompletionMiddleware:
 		if not request.user.is_anonymous:
 				profile = request.user.profile
 				if not profile.picture or not profile.biography:
-					if request.path not in [reverse('update_profile'), reverse('logout')] and not request.path.startswith('/admin/'):
-						return redirect ('update_profile')
+					if request.path not in [reverse('users:update'), reverse('users:logout')] and not request.path.startswith('/admin/'):
+						return redirect ('update')
 
 
 		response = self.get_response(request)
